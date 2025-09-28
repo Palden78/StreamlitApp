@@ -14,7 +14,7 @@ load_dotenv()
 
 CHROMA_DB_DIR = "./chroma_db_fresh"
 
-embedding_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+embedding_model = SentenceTransformer("BAAI/bge-m3")
 
 class SentenceTransformerEmbeddingFunction(EmbeddingFunction):
     def __init__(self, model):
