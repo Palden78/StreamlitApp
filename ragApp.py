@@ -26,7 +26,8 @@ class SentenceTransformerEmbeddingFunction(EmbeddingFunction):
 ef_function = SentenceTransformerEmbeddingFunction(embedding_model)
 
 # Load Chroma client
-client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+#client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+client = chromadb.Client()  # in-memory
 collection = client.get_or_create_collection(
     name="documents",
     embedding_function=ef_function
