@@ -1,8 +1,8 @@
 streamlit==1.27.2
-sentence-transformers==2.2.2
+sentence-transformers==2.2.2   # last version compatible with Python 3.12+
 transformers==4.33.2
-huggingface-hub==1.25.1
-torch==2.8.0
+huggingface-hub==1.18.1        # compatible with Py3.13
+torch==2.8.0                   # CPU-only version
 chromadb==1.1.0
 langchain-core==0.3.76
 langchain-openai==0.3.33
