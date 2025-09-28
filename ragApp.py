@@ -61,10 +61,12 @@ def query_rag(query_text: str) -> str:
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query_text)
 
+    api_key = st.secrets["OPENROUTER_API_KEY"]
+
     # Call LLM (OpenRouter / OpenAI compatible)
     model=ChatOpenAI(
       openai_api_base="https://openrouter.ai/api/v1",
-      openai_api_key="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",
+      openai_api_key=api_key,
       temperature=0.1
     )
 
