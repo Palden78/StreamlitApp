@@ -43,37 +43,38 @@ Answer the question based only on the following context: If you don't know the a
 Answer the question based on the above context: {question}
 """
 
-def query_rag(query_text: str) -> str:
-    # Retrieve docs
-    results = collection.query(
-        query_texts=[query_text],
-        n_results=3,
-        include=["documents", "metadatas", "distances"]
-    )
+def query_rag(query_text):
+  # Retrieving the context from the DB using similarity search
+  collection=client.get_collection("documents",ef_function)
+  results=collection.query(query_texts=[query_text],n_results=3,include=['distances','documents','metadatas'])
+  print(results)
+  print("_______")
+  docs = results['documents'][0]  # list of top chunks
+  print(docs)
+  metas = results['metadatas'][0]
+  combined = []
+  for d, m in zip(docs, metas):
+    combined.append(f"Source: {m.get('source','unknown')} (page {m.get('page')})\n{d}")
+  if not docs:
+    return "I couldn’t find anything relevant in the database."
 
-    if len(results["documents"][0]) == 0:
-        print(f"Unable to find any matching results.")
-        return "⚠️ No matching documents found."
-
-    context_text = "\n\n--\n\n".join(results["documents"][0])
-
-    # Build prompt
-    prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
-    prompt = prompt_template.format(context=context_text, question=query_text)
-
-    api_key = st.secrets["OPENROUTER_API_KEY"]
-
-    # Call LLM (OpenRouter / OpenAI compatible)
-    model=ChatOpenAI(
+  context_text = "\n\n".join(docs)
+  print("************")
+  print(context_text)
+  print("************")
+  prompt_template=ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
+  prompt=prompt_template.format(context=context_text,question=query_text)
+  model=ChatOpenAI(
+      model="openai/gpt-4o-mini",
       openai_api_base="https://openrouter.ai/api/v1",
-      openai_api_key=api_key,
+      openai_api_key="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",
       temperature=0.1
-    )
+  )
+  response=model.invoke(prompt)
+  response_text=response.content
+  print(f"Response: {response_text}")
+  return response_text
 
-    response=model.invoke(prompt)
-    response_text=response.content
-    print(f"Response: {response_text}")
-    return response_text
 
 # ------------------------
 # 3. Streamlit UI
