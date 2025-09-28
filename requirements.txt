@@ -1,9 +1,23 @@
+# Streamlit for web app
 streamlit==1.27.2
-sentence-transformers==2.2.2   # last version compatible with Python 3.12+
-transformers==4.33.2
-huggingface-hub==1.18.1        # compatible with Py3.13
-torch==2.8.0                   # CPU-only version
+
+# Sentence transformers compatible with Python 3.12+ and 3.13
+sentence-transformers==2.2.2
+
+# Transformers version compatible with huggingface-hub 1.18.1
+transformers==4.37.1
+huggingface-hub==1.18.1
+
+# CPU-only PyTorch for Python 3.13
+torch==2.8.0+cpu
+
+# Chroma vector DB
 chromadb==1.1.0
+
+# LangChain core and OpenAI integration
 langchain-core==0.3.76
 langchain-openai==0.3.33
+
+# Environment variable support
 python-dotenv==1.0.1
+
