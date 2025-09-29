@@ -37,10 +37,17 @@ collection = client.get_or_create_collection(
 # 2. Query function
 # ------------------------
 PROMPT_TEMPLATE = """
-Answer the question based only on the following context: If you don't know the answer, please say I dont have enough information to answer that.
+You are a helpful research assistant. 
+Use the following sources to answer the question. 
+If the information is incomplete, do your best to provide a reasoned answer and point out the gaps.
+
+Context:
 {context}
- - -
-Answer the question based on the above context: {question}
+
+Question:
+{question}
+
+Answer clearly, citing sources where relevant.
 """
 
 def query_rag(query_text):
@@ -67,7 +74,7 @@ def query_rag(query_text):
   model=ChatOpenAI(
       model="openai/gpt-4o-mini",
       openai_api_base="https://openrouter.ai/api/v1",
-      openai_api_key="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",
+      openai_api_key="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",
       temperature=0.1
   )
   response=model.invoke(prompt)
